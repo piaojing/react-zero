@@ -17,14 +17,16 @@
   <body>
     <div id="root"></div>
     <script>
-      const Person = () => {
-        return <p>Max</p>;
-      };
-      // or:
+      const e = React.createElement;
       function Person() {
-        return <p>Max</p>;
+        return e(
+                'p',
+                {},
+                'Max'
+        );
       }
-      ReactDOM
+
+      ReactDOM.render(e(Person), document.getElementById("root"));
     </script>
   </body>
 </html>

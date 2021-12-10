@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Multiply</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Multiply extends React.Component {
+        constructor(props) {
+          // fires before component is mounted
+          super(props); // makes this refer to this component
+          this.state = {
+            first: Math.ceil(Math.random() * 10),
+            second: Math.ceil(Math.random() * 10),
+            value: "",
+            result: "",
+            f_num: "",
+            s_num: "",
+          }; // set state
+        }
+
+        myCal = (e) => {
+          e.preventDefault();
+          // alert('hi')
+          // alert(document.getElementById('num').value)
+          // let myNum = document.getElementById("num").value;
+          // debugger
+          this.state.first * this.state.second === parseInt(this.state.value)
+            ? this.setState({
+                first: Math.ceil(Math.random() * 10),
+                second: Math.ceil(Math.random() * 10),
+                value: "",
+                result: "True",
+              })
+            : this.setState({
+                value: "",
+                result: "wrong",
+              });
+        };
+        changeNum = (e) => {
+          console.log(e.target.value);
+          this.setState({ value: e.target.value });
+        };
+
+        render() {
+          return (
+            <div>
+              <p>
+                {this.state.first} multiply {this.state.second}
+              </p>
+              <form onSubmit={this.myCal}>
+                <input
+                  id="num"
+                  type="number"
+                  value={this.state.value}
+                  onChange={this.changeNum}
+                />
+                <input type="submit" value="Submit" />
+              </form>
+              <div>{this.state.result}</div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<div><Multiply /><Multiply /><Multiply /></div>, document.getElementById("root"));
+    </script>
+  </body>
+</html>

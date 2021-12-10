@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Multiply</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Multiply extends React.Component {
+        constructor(props) {
+          // fires before component is mounted
+          super(props); // makes this refer to this component
+          this.state = {
+            first: Math.ceil(Math.random() * 10),
+            second: Math.ceil(Math.random() * 10),
+            value: "",
+            result: "",
+          }; // set state
+        }
+
+        // componentWillMount() {
+        //   let first_num = () => this.setState({ first: Math.random() * 10 });
+        //   let second_num = () => this.setState({ second: Math.random() * 10 });
+        // }
+        myCal = () => {
+          // alert('hi')
+          // alert(document.getElementById('num').value)
+          let myNum = document.getElementById("num").value;
+          // debugger
+          this.state.first * this.state.second === parseInt(myNum) 
+            ? this.setState({
+                first: Math.ceil(Math.random() * 10),
+                second: Math.ceil(Math.random() * 10),
+                value: "",
+                result: "True",
+              })
+            : this.setState({
+                value: "",
+                result: "wrong",
+              });
+        };
+        changeNum = (e) => {
+          console.log(e.target.value);
+        };
+        render() {
+          return (
+            <div>
+              <p>
+                {this.state.first} multiply {this.state.second}
+              </p>
+              <input id="num" type="number" onChange={this.changeNum} />
+              <button onClick={this.myCal}>Result</button>
+              <button
+                onClick={() => {
+                  alert("hi");
+                }}
+              >
+                Babel Result
+              </button>
+              <button
+                onClick={function () {
+                  alert("hi");
+                }}
+              >
+                func Result
+              </button>
+              <div>{this.state.result}</div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Multiply />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
