@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- <script src="https://data.jsdelivr.com/v1/package/npm/react-hook-use-state/badge"></script> -->
+    <title>Multiply</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const Multiply = () => {
+        const [first, setFirst] = React.useState(Math.ceil(Math.random() * 10));
+        const [second, setSecond] = React.useState(
+          Math.ceil(Math.random() * 10)
+        );
+        const [value, setValue] = React.useState("");
+        const [result, setResult] = React.useState("");
+
+        const inputRef = React.useRef();
+
+        React.useEffect(() => {
+          inputRef.current.focus();
+        });
+
+        const myCal = (e) => {
+          e.preventDefault();
+          debugger;
+          if (first * second === parseInt(value)) {
+            setResult("True! answer: " +  value );
+            setFirst(Math.ceil(Math.random() * 10));
+            setSecond(Math.ceil(Math.random() * 10));
+            setValue("");
+          } else {
+            setValue("");
+            setResult("wrong!");
+          }
+        };
+
+        const changeNum = (e) => {
+          setValue(e.target.value);
+        };
+
+        return (
+          <div>
+            <p>
+              {first} multiply {second}
+            </p>
+            <form onSubmit={myCal}>
+              <input
+                ref={inputRef}
+                type="number"
+                value={value}
+                onChange={changeNum}
+              />
+              <input type="submit" value="Submit" />
+            </form>
+            <div>{result}</div>
+          </div>
+        );
+      };
+      ReactDOM.render(
+        <div>
+          <Multiply />
+        </div>,
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>

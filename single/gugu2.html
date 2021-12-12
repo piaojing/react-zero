@@ -27,11 +27,8 @@
             second: Math.ceil(Math.random() * 10),
             value: "",
             result: "",
-            f_num: "",
-            s_num: "",
           }; // set state
         }
-
         myCal = (e) => {
           e.preventDefault();
           // alert('hi')
@@ -39,44 +36,64 @@
           // let myNum = document.getElementById("num").value;
           // debugger
           this.state.first * this.state.second === parseInt(this.state.value)
-            ? this.setState({
-                first: Math.ceil(Math.random() * 10),
-                second: Math.ceil(Math.random() * 10),
-                value: "",
-                result: "True",
+            ? this.setState((prevState) => {
+                return {
+                  first: Math.ceil(Math.random() * 10),
+                  second: Math.ceil(Math.random() * 10),
+                  value: "",
+                  result: "True! answer: " + prevState.value,
+                };
+                this.input.focus(); //set focus
               })
             : this.setState({
                 value: "",
-                result: "wrong",
+                result: "wrong! ",
               });
+          this.input.focus(); //set focus
         };
         changeNum = (e) => {
           console.log(e.target.value);
           this.setState({ value: e.target.value });
         };
 
+        //set focus
+        input;
+        refInput = (c) => {
+          this.input = c;
+        };
+
         render() {
           return (
-            <div>
+            <React.Fragment>
               <p>
                 {this.state.first} multiply {this.state.second}
               </p>
               <form onSubmit={this.myCal}>
                 <input
-                  id="num"
+                  ref={this.refInput}
                   type="number"
                   value={this.state.value}
                   onChange={this.changeNum}
                 />
                 <input type="submit" value="Submit" />
               </form>
-              <div>{this.state.result}</div>
-            </div>
+              <div>
+                {this.state.result}
+                {this.state.answer}
+              </div>
+            </React.Fragment>
           );
         }
       }
 
-      ReactDOM.render(<div><Multiply /><Multiply /><Multiply /></div>, document.getElementById("root"));
+      ReactDOM.render(
+        <div>
+          <Multiply />
+          <Multiply />
+          <Multiply />
+        </div>,
+        document.getElementById("root")
+      );
     </script>
   </body>
 </html>
