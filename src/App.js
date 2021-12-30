@@ -48,8 +48,8 @@ export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const clickCell = (id) => {
     // debugger
-    console.log("state.selectedCell: "+ state.selectedCell)
-    if (state.winner != "" | state.selectedCell===8) {
+    console.log("state.selectedCell: " + state.selectedCell);
+    if ((state.winner != "") | (state.selectedCell === 8)) {
       dispatch({ type: "NEW_GAME" });
     }
     // console.log("Cell click");
@@ -94,22 +94,37 @@ const winGame = (id, state) => {
 
   if (
     (state.elements[row][0] === state.elements[row][1]) &
-    (state.elements[row][1] === state.elements[row][2]) &
-    (state.elements[row][0] != "")
+    (state.elements[row][1] === state.elements[row][2])
   ) {
     console.log("win", state.turn);
     return "winner";
   } else if (
     (state.elements[0][col] === state.elements[1][col]) &
-    (state.elements[1][col] === state.elements[2][col]) &
-    (state.elements[row][0] != "")
+    (state.elements[1][col] === state.elements[2][col])
+  ) {
+    console.log("win", state.turn);
+    return "winner";
+  }
+  const array1 = [
+    state.elements[0][0],
+    state.elements[1][1],
+    state.elements[2][2],
+  ];
+  const array2 = [
+    state.elements[2][0],
+    state.elements[1][1],
+    state.elements[0][2],
+  ];
+  // check all items in array1,2 are same?
+  if (
+    (array1.filter((e, i, a) => e === "X").length === array1.length) |
+    (array1.filter((e, i, a) => e === "O").length === array1.length)
   ) {
     console.log("win", state.turn);
     return "winner";
   } else if (
-    (state.elements[0][0] === state.elements[1][1]) &
-    (state.elements[1][1] === state.elements[2][2]) &
-    (state.elements[row][0] != "")
+    (array2.filter((e, i, a) => e === "X").length === array2.length) |
+    (array2.filter((e, i, a) => e === "O").length === array2.length)
   ) {
     console.log("win", state.turn);
     return "winner";
