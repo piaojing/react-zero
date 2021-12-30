@@ -4,7 +4,7 @@ import "./App.css";
 
 const initialState = {
   turn: "X",
-  player: "",
+  winner: "",
   elements: [
     ["", "", ""],
     ["", "", ""],
@@ -23,7 +23,18 @@ function reducer(state, action) {
       } else {
         return { ...state, turn: "X" };
       }
-
+    case "WIN_GAME":
+      return { ...state, winner: "winner is " + state.turn };
+    case "NEW_GAME":
+      return {
+        turn: "X",
+        winner: "",
+        elements: [
+          ["", "", ""],
+          ["", "", ""],
+          ["", "", ""],
+        ],
+      };
     default:
       throw new Error();
   }
@@ -34,17 +45,27 @@ const elementsHistory = [];
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const clickCell = (id) => {
+    // debugger
+    if (state.winner != "") {
+      dispatch({ type: "NEW_GAME" });
+    }
     // console.log("Cell click");
     console.log(id, state.turn);
 
     let row = parseInt(id[0]);
     let col = parseInt(id[1]);
     const elementsArray = Array.from(state.elements);
-    console.log(elementsArray===state.elements)
+    console.log(elementsArray === state.elements);
     if (elementsArray[row][col] === "") {
       elementsArray[row][col] = state.turn;
     } else {
       return; // do not any action
+    }
+
+    // identify win condition
+    if (winGame(id, state) === "winner") {
+      // debugger;
+      dispatch({ type: "WIN_GAME" });
     }
 
     dispatch({ type: "CHANGE_TURN" });
@@ -53,17 +74,41 @@ export default function App() {
   return (
     <div className="container">
       <p>Turn: {state.turn}</p>
-      <Table
-        clickCell={clickCell}
-        elements={state.elements}
-        player={state.player}
-      ></Table>
-
+      <Table clickCell={clickCell} elements={state.elements}></Table>
+      <p>{state.winner}</p>
       {/* <button onClick={() => dispatch({type: 'GET_CELL_NUMBER'})}></button> */}
     </div>
   );
 }
 
+//check win condition
+const winGame = (id, state) => {
+  let row = parseInt(id[0]);
+  let col = parseInt(id[1]);
+
+  if (
+    (state.elements[row][0] === state.elements[row][1]) &
+    (state.elements[row][1] === state.elements[row][2]) &
+    (state.elements[row][0] != "")
+  ) {
+    console.log("win", state.turn);
+    return "winner";
+  } else if (
+    (state.elements[0][col] === state.elements[1][col]) &
+    (state.elements[1][col] === state.elements[2][col]) &
+    (state.elements[row][0] != "")
+  ) {
+    console.log("win", state.turn);
+    return "winner";
+  } else if (
+    (state.elements[0][0] === state.elements[1][1]) &
+    (state.elements[1][1] === state.elements[2][2]) &
+    (state.elements[row][0] != "")
+  ) {
+    console.log("win", state.turn);
+    return "winner";
+  }
+};
 // // change item in list
 // var items = [523, 3452, 334, 31, 5346];
 // var index = items.indexOf(3452);
