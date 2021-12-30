@@ -1,15 +1,23 @@
 import React from "react";
 import Tr from "./tr";
 
-
-
 export default function Table(props) {
   return (
     <table>
-      {Array(props.elements.length).fill().map((item, index) => {
-          return <Tr key={index} id={index} elements={props.elements}>{""}</Tr>;
-        })
-      }
+      {Array(props.elements.length)
+        .fill()
+        .map((item, index) => {
+          return (
+            <Tr
+              clickCell={props.clickCell}
+              key={index}
+              id={index}
+              elements={props.elements}
+              player={props.player}
+            >
+            </Tr>
+          );
+        })}
     </table>
   );
 }

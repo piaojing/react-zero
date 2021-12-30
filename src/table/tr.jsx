@@ -9,10 +9,12 @@ export default function Tr(props) {
         .map((item, index) => {
           return (
             <Td
+              clickCell={props.clickCell}
               key={props.id.toString() + index.toString()}
               id={props.id.toString() + index.toString()}
+              elements={props.elements}
+              player={props.player}
             >
-              {""}
             </Td>
           );
         })}
