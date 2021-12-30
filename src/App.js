@@ -4,7 +4,7 @@ import "./App.css";
 
 const initialState = {
   turn: "X",
-  player:'',
+  player: "",
   elements: [
     ["", "", ""],
     ["", "", ""],
@@ -13,25 +13,43 @@ const initialState = {
 };
 
 function reducer(state, action) {
+  console.log(state);
+  // console.log(action.type);
+
   switch (action.type) {
-    case "GET_CELL_NUMBER":
-      return { count: state.count + 1 };
     case "CHANGE_TURN":
-      return { turn: "O" };
+      if (state.turn === "X") {
+        return { ...state, turn: "O" };
+      } else {
+        return { ...state, turn: "X" };
+      }
+
     default:
       throw new Error();
   }
 }
 
+const elementsHistory = [];
+
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const clickCell = (id) => {
-    console.log("Cell click");
-    console.log(id);
+    // console.log("Cell click");
+    console.log(id, state.turn);
+
+    let row = parseInt(id[0]);
+    let col = parseInt(id[1]);
+    const elementsArray = Array.from(state.elements);
+    console.log(elementsArray===state.elements)
+    if (elementsArray[row][col] === "") {
+      elementsArray[row][col] = state.turn;
+    } else {
+      return; // do not any action
+    }
+
+    dispatch({ type: "CHANGE_TURN" });
   };
 
-  console.log(state.elements.length);
-  // debugger
   return (
     <div className="container">
       <p>Turn: {state.turn}</p>
@@ -40,8 +58,16 @@ export default function App() {
         elements={state.elements}
         player={state.player}
       ></Table>
-      
+
       {/* <button onClick={() => dispatch({type: 'GET_CELL_NUMBER'})}></button> */}
     </div>
   );
 }
+
+// // change item in list
+// var items = [523, 3452, 334, 31, 5346];
+// var index = items.indexOf(3452);
+
+// if (~index) {
+//     items[index] = 1010;
+// }
