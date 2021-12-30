@@ -10,6 +10,7 @@ const initialState = {
     ["", "", ""],
     ["", "", ""],
   ],
+  selectedCell: 0,
 };
 
 function reducer(state, action) {
@@ -34,6 +35,7 @@ function reducer(state, action) {
           ["", "", ""],
           ["", "", ""],
         ],
+        selectedCell: 0,
       };
     default:
       throw new Error();
@@ -46,7 +48,8 @@ export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const clickCell = (id) => {
     // debugger
-    if (state.winner != "") {
+    console.log("state.selectedCell: "+ state.selectedCell)
+    if (state.winner != "" | state.selectedCell===8) {
       dispatch({ type: "NEW_GAME" });
     }
     // console.log("Cell click");
@@ -56,10 +59,13 @@ export default function App() {
     let col = parseInt(id[1]);
     const elementsArray = Array.from(state.elements);
     console.log(elementsArray === state.elements);
+
+    // check selected
     if (elementsArray[row][col] === "") {
       elementsArray[row][col] = state.turn;
+      state.selectedCell = state.selectedCell + 1;
     } else {
-      return; // do not any action
+      return; // do not change cell
     }
 
     // identify win condition
